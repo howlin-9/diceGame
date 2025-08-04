@@ -6,6 +6,7 @@ namespace diceGame
     {
         public static void Main()
         {
+            //this is a change to test things on github, ooooo, aaaaaa.
             Die testDie = new();
             Scoring testScoring = new(); // Scoring class is used to store rolls / check for scoring conditions.
 

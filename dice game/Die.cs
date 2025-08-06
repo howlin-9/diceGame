@@ -1,6 +1,6 @@
 ﻿using diceGame;
 using System;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace diceGame
 {
@@ -8,21 +8,17 @@ namespace diceGame
     {
         public static int sidesCount = 6; //Made static so that field initializer in Random may reference it.
         public int inPlay = 6; // Num of die to add to the player's hand, num of index in rollStorage.
-        public int roll;
+        public int random = Random.Shared.Next(1, sidesCount + 1);
 
-        public int Randomized()
+        public void DiceRoll(Scoring storage)
         {
-            Scoring storage = new();
+            //public int roll = Random.Shared.Next(1, sidesCount + 1);
             for (int i = 0; i < inPlay; i++)
             {
-                roll = Random.Shared.Next(1, sidesCount + 1);
-                storage.rollStorage[i] = roll;
+                //roll = Random.Shared.Next(1, sidesCount + 1);
+                Die roll = new();
+                storage.rollStorage[i] = roll.random;
             }
-            foreach (int num in storage.rollStorage)
-            {
-                Console.WriteLine(num); //Tell players what they just rolled.
-            }
-            return roll; //Honestly not sure wtf i should return here...lol.
         }
     }
 }

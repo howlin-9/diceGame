@@ -1,0 +1,30 @@
+
+Press R key to roll, or Q to quit. (Optionally, D to debug.)
+
+---------DEBUG---------
+| inPlay: 6
+| sidesCount: 6
+| ____rollStorage____ 
+| index: 0 - value: 0
+| index: 1 - value: 0
+| index: 2 - value: 0
+| index: 3 - value: 0
+| index: 4 - value: 0
+| index: 5 - value: 0
+| --------------------
+| hasStraight: False
+
+Press R key to roll, or Q to quit. (Optionally, D to debug.)
+
+Rolling dice... (Roll #1)
+2
+6
+6
+2
+6
+4
+No straight rolled.
+
+Press R key to roll, or Q to quit. (Optionally, D to debug.)
+
+Writing log...

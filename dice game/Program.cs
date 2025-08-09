@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace diceGame
 {
@@ -6,11 +9,13 @@ namespace diceGame
     {
         public static void Main()
         {
-            Die testDie = new();
-            Scoring testScoring = new(); // Scoring class is used to store rolls / check for scoring conditions.
+            //Die testDie = new();
+            StraightDetector straightDetector = new();
+            TripletDetector tripletDetector = new();
             OutputHandler outputHandler = new();
             int diceRollCount = 0;
             int straightCount = 0;
+            int tripletCount = 0;
 
 
             while (true)
@@ -20,42 +25,56 @@ namespace diceGame
                 switch (rollKey.Key)
                 {
                     case ConsoleKey.D:
-                        outputHandler.Log("---------DEBUG---------"); //Spelled "ebug" intentionally, run the code and see why.
-                        outputHandler.Log("| inPlay: " + testDie.inPlay);
+                        outputHandler.Log("---------DEBUG---------");
+                        outputHandler.Log("| inPlay: " + Die.inPlay);
                         outputHandler.Log("| sidesCount: " + Die.sidesCount);
                         outputHandler.Log("| ____rollStorage____ ");
-                        /*foreach (var item in testScoring.rollStorage.Select((value, index) => new { value, index }))
+                        /*foreach (var item in straightDetector.rollStorage.Select((value, index) => new { value, index }))
                         {
                             Console.WriteLine($"index:{item.index} - value:{item.value}");
                         }*/
-                        for (int i = 0; i < testScoring.rollStorage.Length; i++)
+                        for (int i = 0; i < Die.rollStorage.Length; i++)
                         {
-                            outputHandler.Log($"| index: {i} - value: {testScoring.rollStorage[i]}");
+                            outputHandler.Log($"| index: {i} - value: {Die.rollStorage[i]}");
                         }
                         outputHandler.Log("| --------------------");
-                        outputHandler.Log("| hasStraight: " + testScoring.HasStraight());
+                        outputHandler.Log("| HasStraight: " + straightDetector.HasStraight());
+                        outputHandler.Log("| HasTriplet: " + tripletDetector.HasTriplet());
                         Console.WriteLine($"| straightCount: {straightCount}");
+                        Console.WriteLine($"| tripletCount: {tripletCount}");
                         break;
 
                     case ConsoleKey.R:
+                        Die.DiceRoll(straightDetector, tripletDetector); // Roll the die.
+
+                        outputHandler.Log($"Rolling dice... (Roll #{diceRollCount})");
                         diceRollCount++;
 
-                        if (testScoring.HasStraight())
-                        { straightCount++; } // Increment straight count if a straight was rolled, for debugging purposes.
-
-                        outputHandler.Log($"Rolling dice... (Roll #{diceRollCount})"); //Spelled "olling" intentionally.
-                        testDie.DiceRoll(testScoring); // Roll the die.
-                        foreach (int num in testScoring.rollStorage)
+                        foreach (int num in Die.rollStorage)
                         {
                             outputHandler.Log(num.ToString()); //Tell players what they just rolled.
                         }
-                        if (testScoring.HasStraight())
+
+                        //detect straights
+                        if (straightDetector.HasStraight())
                         {
+                            straightCount++; // Increment straight count if a straight was rolled, for debugging purposes.
                             outputHandler.Log("You rolled a straight! 1,500 points!");
                         }
                         else
                         {
                             outputHandler.Log("No straight rolled.");
+                        }
+
+                        //detect triplet
+                        if (tripletDetector.HasTriplet())
+                        {
+                            tripletCount++; // Increment triplet count if a straight was rolled, for debugging purposes.
+                            outputHandler.Log("You rolled a triplet! 'xyz' points!");
+                        }
+                        else
+                        {
+                            outputHandler.Log("No triplet rolled.");
                         }
                         break;
 

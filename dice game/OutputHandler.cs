@@ -1,6 +1,4 @@
-using System;
 using System.Text;
-using diceGame;
 
 namespace diceGame
 {

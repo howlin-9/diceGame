@@ -9,14 +9,18 @@ namespace diceGame
     {
         public static void Main()
         {
-            //Die testDie = new();
+
             StraightDetector straightDetector = new();
             TripletDetector tripletDetector = new();
             OutputHandler outputHandler = new();
+            ScoreHandler scoreHandlerInstance = new();
+            
             int diceRollCount = 0;
+
             int straightCount = 0;
             int tripletCount = 0;
 
+            int totalPointsCount = 0;
 
             while (true)
             {
@@ -42,6 +46,15 @@ namespace diceGame
                         outputHandler.Log("| HasTriplet: " + tripletDetector.HasTriplet());
                         Console.WriteLine($"| straightCount: {straightCount}");
                         Console.WriteLine($"| tripletCount: {tripletCount}");
+                        Console.WriteLine($"| totalPointsCount: {totalPointsCount}");
+                        Console.WriteLine("input inPlay value: ");
+
+                        /* input inPlay count.
+                        string inPlayString = Console.ReadLine();
+                        int inPlayNum = int.Parse(inPlayString);
+                        Die.inPlay = inPlayNum;
+                        */
+                        
                         break;
 
                     case ConsoleKey.R:
@@ -59,6 +72,7 @@ namespace diceGame
                         if (straightDetector.HasStraight())
                         {
                             straightCount++; // Increment straight count if a straight was rolled, for debugging purposes.
+                            totalPointsCount = totalPointsCount + scoreHandlerInstance.StraightOutput(0);
                             outputHandler.Log("You rolled a straight! 1,500 points!");
                         }
                         else
@@ -69,13 +83,15 @@ namespace diceGame
                         //detect triplet
                         if (tripletDetector.HasTriplet())
                         {
-                            tripletCount++; // Increment triplet count if a straight was rolled, for debugging purposes.
-                            outputHandler.Log("You rolled a triplet! 'xyz' points!");
+                            tripletCount++;
+                            totalPointsCount = totalPointsCount + scoreHandlerInstance.TripletOutput(0);
+                            outputHandler.Log($"You rolled triple {TripletDetector.i}'s! {scoreHandlerInstance.TripletOutput(0)} points!");
                         }
                         else
                         {
                             outputHandler.Log("No triplet rolled.");
                         }
+                        outputHandler.Log($"totalPointsCount: {totalPointsCount}");
                         break;
 
                     case ConsoleKey.Q:
